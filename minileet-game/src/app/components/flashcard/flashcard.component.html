@@ -1,0 +1,7 @@
+<div
+  class="flashcard"
+  [ngClass]="{ selected: isSelected, incorrect: isIncorrect }"
+  (click)="handleClick()"
+>
+  <h4>{{ answer.text }}</h4>
+</div>

@@ -1,0 +1,40 @@
+<div class="layout">
+  <!-- Left Panel: Problem Description -->
+  <div class="left-panel">
+    <h3>Problem</h3>
+    <p>{{ currentQuestion?.prompt }}</p>
+    <h4>Example Input:</h4>
+    <pre>{{ currentQuestion?.exampleInput }}</pre>
+    <h4>Example Output:</h4>
+    <pre>{{ currentQuestion?.exampleOutput }}</pre>
+  </div>
+
+  <!-- Right Panel: Answer Choices -->
+  <div class="right-panel">
+    <h3>Choose Your Solution</h3>
+    <div class="flashcards">
+      <app-flashcard
+        *ngFor="let answer of currentQuestion?.answers || []"
+        [answer]="answer"
+        [isSelected]="selectedAnswer === answer"
+        [isIncorrect]="selectedAnswer === answer && !answer.isFastest"
+        (select)="evaluateAnswer($event)"
+      ></app-flashcard>
+    </div>
+  </div>
+
+  <div class="bottom-panel">
+    <h4>Console Log:</h4>
+    <div class="console-log" *ngIf="selectedAnswer; else placeholder">
+      <p class="status" [ngClass]="{ correct: isCorrectAnswer, incorrect: !isCorrectAnswer }">
+        {{ isCorrectAnswer ? '✅ Correct!' : '⚠️ Almost!' }}
+      </p>
+      <p><strong>Description:</strong> {{ selectedAnswer?.description }}</p>
+      <p><strong>Time Complexity:</strong> {{ selectedAnswer?.timeComplexity }}</p>
+      <p><strong>Space Complexity:</strong> {{ selectedAnswer?.spaceComplexity }}</p>
+    </div>
+    <ng-template #placeholder>
+      <p class="placeholder-text"></p>
+    </ng-template>
+  </div>
+

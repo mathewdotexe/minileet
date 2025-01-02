@@ -1,0 +1,32 @@
+:root {
+  /* Light mode colors */
+  --background-color: #f9f9f9;
+  --card-background-color: #ffffff;
+  --card-accent-color: #f4f4f4; /* New light card color */
+  --text-color: #333333;
+  --primary-color: #4caf50;
+  --error-color: #f44336;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode {
+  /* Dark mode colors */
+  --background-color: #121212;
+  --card-background-color: #1e1e1e;
+  --card-accent-color: #2a2a2a; /* New dark card color */
+  --text-color: #e0e0e0;
+  --primary-color: #81c784;
+  --error-color: #e57373;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+* {
+  box-sizing: border-box;
+}

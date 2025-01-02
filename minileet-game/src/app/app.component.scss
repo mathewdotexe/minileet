@@ -1,0 +1,18 @@
+.dark-mode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: var(--card-background-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+  }
+}
