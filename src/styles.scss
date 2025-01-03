@@ -7,6 +7,9 @@
   --primary-color: #4caf50;
   --error-color: #f44336;
   --shadow-color: rgba(0, 0, 0, 0.1);
+  --button-primary-color: #007bff; /* Blue for buttons */
+  --button-hover-color: #0056b3; /* Darker blue on hover */
+  --button-disabled-color: #d6d6d6; /* Gray for disabled buttons */
 }
 
 .dark-mode {
@@ -18,6 +21,9 @@
   --primary-color: #81c784;
   --error-color: #e57373;
   --shadow-color: rgba(0, 0, 0, 0.5);
+  --button-primary-color: #1e88e5;
+  --button-hover-color: #1565c0;
+  --button-disabled-color: #3a3a3a;
 }
 
 body {
