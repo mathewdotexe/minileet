@@ -3,7 +3,6 @@
     <p>Progress: {{ progress }}</p>
   </div>
 
-  <!-- Slide Deck Container -->
   <div class="carousel">
     <div
       class="slide"
@@ -12,7 +11,7 @@
       [class.inactive]="currentQuestionIndex !== i"
     >
       <div class="layout">
-        <!-- Left Panel -->
+        <!-- Problem Panel -->
         <div class="left-panel">
           <h3>Problem</h3>
           <p>{{ question.prompt }}</p>
@@ -22,7 +21,7 @@
           <pre>{{ question.exampleOutput }}</pre>
         </div>
 
-        <!-- Right Panel -->
+        <!-- Solution Panel -->
         <div class="right-panel">
           <h3>Choose Your Solution</h3>
           <div class="flashcards">
@@ -36,8 +35,8 @@
           </div>
         </div>
 
-        <!-- Console Log -->
-        <div class="bottom-panel">
+        <!-- Console Log Panel -->
+        <div class="console-log-panel">
           <h4>Console Log:</h4>
           <div class="console-log" *ngIf="selectedAnswer; else placeholder">
             <p class="status" [ngClass]="{ correct: isCorrectAnswer, incorrect: !isCorrectAnswer }">
@@ -50,25 +49,56 @@
           <ng-template #placeholder>
             <p class="placeholder-text">Waiting for your selection...</p>
           </ng-template>
+
+          <!-- Generate Java Code Button -->
+          <button
+            class="generate-code-btn"
+            *ngIf="isCorrectAnswer"
+            (click)="generateCode()">
+            Generate Code
+          </button>
         </div>
+
+       <!-- Generated Code Panel -->
+<div class="code-panel" *ngIf="generatedCode">
+  <div class="code-header">
+    <div class="header-buttons">
+      <span class="button close"></span>
+      <span class="button minimize"></span>
+      <span class="button maximize"></span>
+    </div>
+    <span class="code-title">GeneratedCode.java</span>
+  </div>
+
+  <!-- Use the custom Prism directive -->
+  <pre appPrismHighlight [code]="generatedCode" [language]="'java'"></pre>
+
+  <!-- Copy to Clipboard Button -->
+  <button class="copy-btn" (click)="copyToClipboard()">
+    📋 Copy
+  </button>
+
+  <!-- Copy Notification -->
+  <div class="copy-notification" *ngIf="showCopyNotification">
+    Copied to clipboard!
+  </div>
+</div>
+
       </div>
     </div>
   </div>
 
-  <!-- Navigation Buttons -->
   <div class="navigation-buttons">
     <button
       class="previous"
       (click)="previousQuestion()"
-      [disabled]="currentQuestionIndex === 0"
-    >
+      [disabled]="currentQuestionIndex === 0">
       Previous Question
     </button>
     <button
       class="next"
       (click)="nextQuestion()"
-      [disabled]="currentQuestionIndex === questions.length - 1"
-    >
+      [disabled]="currentQuestionIndex === questions.length - 1">
       Next Question
     </button>
   </div>

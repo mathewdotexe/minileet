@@ -1,7 +1,8 @@
+
 .layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto auto; /* Console Log and Action rows below */
   gap: 20px;
   padding: 20px;
   background-color: var(--background-color); /* Theme-aware */
@@ -53,7 +54,6 @@
   margin: 20px auto;
 }
 
-
 button {
   padding: 10px 20px;
   font-size: 1rem;
@@ -83,7 +83,6 @@ button {
   }
 }
 
-
 .progress-bar {
   width: 100%;
   text-align: center;
@@ -91,7 +90,8 @@ button {
   font-weight: bold;
 }
 
-.left-panel {
+.left-panel,
+.right-panel {
   background-color: var(--card-background-color); /* Theme-aware */
   border-radius: 8px;
   padding: 16px;
@@ -100,10 +100,6 @@ button {
 }
 
 .right-panel {
-  background-color: var(--card-background-color);
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 4px 6px var(--shadow-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,14 +122,14 @@ button {
   padding: 20px;
 }
 
-.bottom-panel {
-  grid-column: span 2;
-  margin-top: 20px;
-  background-color: var(--card-background-color); /* Theme-aware */
+.console-log-panel {
+  grid-column: span 2; /* Full width */
+  background-color: var(--card-background-color);
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 6px var(--shadow-color); /* Theme-aware */
-  color: var(--text-color); /* Theme-aware */
+  color: var(--text-color);
+  position: relative; /* For button positioning */
 
   h4 {
     margin-bottom: 10px;
@@ -143,31 +139,139 @@ button {
 
   .console-log {
     padding: 10px;
-    background-color: var(--card-background-color); /* Theme-aware */
+    background-color: var(--card-background-color);
     border-radius: 8px;
     box-shadow: inset 0 2px 4px var(--shadow-color); /* Theme-aware */
+  }
 
-    p {
-      margin: 5px 0;
-      font-size: 1rem;
-      line-height: 1.5;
+  .generate-code-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    transition: background-color 0.3s;
 
-      &.status {
-        font-size: 1.2rem;
-        font-weight: bold;
-
-        &.correct {
-          color: var(--primary-color); /* Theme-aware */
-        }
-
-        &.incorrect {
-          color: var(--error-color); /* Theme-aware */
-        }
-      }
-
-      strong {
-        color: var(--primary-color); /* Theme-aware */
-      }
+    &:hover {
+      background-color: #388e3c;
     }
   }
 }
+
+.code-panel {
+  position: relative; /* Required for absolute positioning of the button */
+  grid-column: span 2; /* Ensure full width like Console Log */
+  margin: 20px auto 0 auto; /* Center below Console Log */
+  width: 100%; /* Matches the Console Log Panel width */
+  background-color: #1e1e1e; /* Dark theme background */
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+
+  .code-header {
+    background-color: #2d2d2d; /* Header bar background */
+    border-bottom: 1px solid #444;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header-buttons {
+      display: flex;
+      gap: 5px;
+
+      .button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .close {
+        background-color: #ff5f57;
+      }
+      .minimize {
+        background-color: #ffbd2e;
+      }
+      .maximize {
+        background-color: #28c940;
+      }
+    }
+
+    .code-title {
+      font-family: 'Arial', sans-serif;
+      font-size: 14px;
+      color: #ccc;
+    }
+  }
+
+  .code-content {
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    color: #dcdcdc;
+    white-space: pre-wrap; /* Wrap long code lines */
+    word-wrap: break-word;
+    overflow-x: auto;
+  }
+}
+
+.copy-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #4caf50; /* Green background */
+  color: #fff; /* White text */
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #388e3c; /* Darker green on hover */
+  }
+
+  &:active {
+    background-color: #2e7d32; /* Even darker green on click */
+  }
+}
+
+.copy-notification {
+  position: absolute;
+  bottom: 50px; /* Adjust as needed to position above the copy button */
+  right: 10px;
+  background-color: #323232; /* Dark background */
+  color: #fff; /* White text */
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  opacity: 0;
+  animation: fadeInOut 2s forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  10%,
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
